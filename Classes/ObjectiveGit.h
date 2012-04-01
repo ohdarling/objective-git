@@ -23,7 +23,6 @@
 //  THE SOFTWARE.
 //
 
-#import <git2.h>
 
 #import <ObjectiveGit/dct_weak.h>
 
@@ -44,5 +43,4 @@
 #import <ObjectiveGit/GTOdbObject.h>
 
 #import <ObjectiveGit/NSError+Git.h>
-#import <ObjectiveGit/NSData+Git.h>
 #import <ObjectiveGit/NSString+Git.h>
