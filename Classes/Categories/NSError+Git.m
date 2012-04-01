@@ -35,6 +35,15 @@ NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 
 @implementation NSError (Git)
 
++ (NSString *)gitLastErrorDescriptionWithCode:(NSInteger)code {
+	const char *gitLastError = git_lasterror();
+	if(gitLastError == NULL && code == GIT_EOSERR) {
+		gitLastError = strerror(errno);
+	}
+	
+	return [NSString stringWithUTF8String:gitLastError];
+}
+
 + (NSError *)git_errorFor:(NSInteger)code withAdditionalDescription:(NSString *)desc {
 	return [NSError errorWithDomain:GTGitErrorDomain code:code userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%@ %@", desc, [self gitLastErrorDescriptionWithCode:code]] forKey:NSLocalizedDescriptionKey]];
 }
@@ -45,15 +54,6 @@ NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 
 + (NSError *)git_errorForMkStr: (NSInteger)code {	
 	return [NSError git_errorFor:code withAdditionalDescription:@"Failed to create object id from sha1."];
-}
-
-+ (NSString *)gitLastErrorDescriptionWithCode:(NSInteger)code {
-	const char *gitLastError = git_lasterror();
-	if(gitLastError == NULL && code == GIT_EOSERR) {
-		gitLastError = strerror(errno);
-	}
-	
-	return [NSString stringWithUTF8String:gitLastError];
 }
 
 @end
